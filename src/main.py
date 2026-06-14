@@ -1,6 +1,6 @@
 from load_data import load_data
 from utils import format_time
-from qualifying import get_best_laps
+from qualifying import get_best_laps, driver_exists
 
 
 
@@ -14,6 +14,10 @@ def main():
 
 
     driver = input("Driver code: ").strip().upper()
+
+    if not driver_exists(df, driver):
+        print("Driver not found.")
+        return
 
     results = get_best_laps(df, driver)
 

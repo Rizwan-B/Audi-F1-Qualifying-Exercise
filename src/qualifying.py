@@ -1,5 +1,10 @@
 import pandas as pd
 
+# Checks if a driver exists in the dataframe.
+def driver_exists(df: pd.DataFrame, driver):
+    return driver.upper() in df["drv"].unique()
+
+
 # Returns the best lap for a driver in Q1, Q2 and Q3.
 def get_best_laps(df, driver):
     

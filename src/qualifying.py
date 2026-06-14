@@ -28,3 +28,11 @@ def get_best_laps(df, driver):
             results[session] = float(best_time)
 
     return results
+
+def get_session_best(df, session):
+
+    session_df = df[df["qs"] == session].copy()
+
+    session_df["time"] = pd.to_numeric(session_df["time"], errors="coerce")
+
+    return (session_df.groupby("drv", as_index=False)["time"].min())

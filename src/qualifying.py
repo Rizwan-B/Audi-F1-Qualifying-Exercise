@@ -29,6 +29,7 @@ def get_best_laps(df, driver):
 
     return results
 
+# Returns the best lap for each driver in a given session.
 def get_session_best(df, session):
 
     session_df = df[df["qs"] == session].copy()
@@ -36,3 +37,40 @@ def get_session_best(df, session):
     session_df["time"] = pd.to_numeric(session_df["time"], errors="coerce")
 
     return (session_df.groupby("drv", as_index=False)["time"].min())
+
+
+def get_quali_position(df):
+
+    q1 = get_session_best(df, "Q1")
+    q2 = get_session_best(df, "Q2")
+    q3 = get_session_best(df, "Q3")
+
+    q1_drivers = set(q1["drv"])
+    q2_drivers = set(q2["drv"])
+    q3_drivers = set(q3["drv"])
+
+    # The top 10 
+    q3_sorted = q3.sort_values("time")
+
+    # Drivers eliminated in Q2
+    q2_eliminated = q2[q2["drv"].isin(q2_drivers - q3_drivers)].sort_values("time")
+
+    # Drivers eliminated in Q1
+    q1_eliminated = q1[q1["drv"].isin(q1_drivers - q2_drivers)].sort_values("time")
+
+    results = {}
+    position = 1
+
+    for _, row in q3_sorted.iterrows():
+        results[row["drv"]] = position
+        position += 1
+
+    for _, row in q2_eliminated.iterrows():
+        results[row["drv"]] = position
+        position += 1
+
+    for _, row in q1_eliminated.iterrows():
+        results[row["drv"]] = position
+        position += 1
+
+    return results

@@ -18,15 +18,22 @@ The solution is implemented as a Python console application.
 - pandas
 
 Install dependencies:
+```bash
 pip install -r requirements.txt
-
+```
 
 #### Running the Application
 
 From the project root:
-
+```bash
 python src/main.py
+```
 
+#### Running tests:
+
+```bash
+pytest
+```
 
 ## Dataset Attribution
 

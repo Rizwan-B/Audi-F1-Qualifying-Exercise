@@ -11,24 +11,25 @@ def main():
     driver = input("Driver code: ").strip().upper()
 
     if not driver_exists(df, driver):
-        print("Driver not found.")
-        return
+            print(
+                f"Driver '{driver}' not found.\n"
+                f"Available drivers: "
+                f"{', '.join(sorted(df['drv'].unique()))}"
+            )
+            return
     
-    print(f"\nDriver: {driver}")
     results = get_best_laps(df, driver)
+    position = get_quali_position(df, driver)
+
+
+    print(f"\nDriver: {driver}")    
 
     print("\nBest Qualifying Laps:")
     for session, lap in results.items():
         print(f"{session}: {format_time(lap)}")
 
-    print("\nQualifying Position:")
-    quali_position = get_quali_position(df)
-    if driver in quali_position:
-        print(f"{driver}: {quali_position[driver]}")
 
-    # print("\nSession Best Laps:")
-    # print(get_session_best(df, "Q1").sort_values("time")
-
+    print(f"\nFinal Qualifying Position: P{position}")
 
 if __name__ == "__main__":
     main()

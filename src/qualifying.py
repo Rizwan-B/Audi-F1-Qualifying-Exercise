@@ -39,7 +39,7 @@ def get_session_best(df, session):
     return (session_df.groupby("drv", as_index=False)["time"].min())
 
 
-def get_quali_position(df):
+def get_quali_classification(df):
 
     q1 = get_session_best(df, "Q1")
     q2 = get_session_best(df, "Q2")
@@ -74,3 +74,8 @@ def get_quali_position(df):
         position += 1
 
     return results
+
+def get_quali_position(df, driver):
+    classification = get_quali_classification(df)
+
+    return classification[driver.upper()]
